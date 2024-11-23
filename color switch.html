@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moving Blocks Animation</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #1a1a2e;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      max-width: 600px;
+      padding:5px 5px;
+      height: 200px;
+      border: 2px solid #000;
+      background-color: #000;
+      overflow: hidden;
+    }
+
+    .block {
+       margin: 20px;
+      width: 80px;
+      height: 100%;
+      margin: 0;
+      background-color: #870891;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .block:nth-child(2) {
+      background-color: #dd1ee4;
+    }
+
+    .block:nth-child(3) {
+      background-color: #c9348b;
+    }
+
+    .block:nth-child(4) {
+      background-color: #eb960e;
+    }
+
+    .block:nth-child(5) {
+      background-color: #fddb3a;
+    }
+
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .start {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .reset {
+      background-color: #6f42c1;
+      color: white;
+    }
+
+    .stop {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="block"></div>
+    <div class="block"></div>
+    <div class="block"></div>
+    <div class="block"></div>
+  </div>
+  <div class="controls">
+    <button class="start">Start</button>
+    <button class="reset">Reset</button>
+    <button class="stop">Stop</button>
+  </div>
+
+  <script>
+    const blocks = document.querySelectorAll('.block');
+    const startButton = document.querySelector('.start');
+    const stopButton = document.querySelector('.stop');
+    const resetButton = document.querySelector('.reset');
+    let animationInterval;
+
+    function startAnimation() {
+      let direction = 1;
+      animationInterval = setInterval(() => {
+        blocks.forEach((block, index) => {
+          const offset = Math.sin(Date.now() / 500 + index) * 50 * direction; // Calculate offset
+          block.style.transform = `translateY(${offset}px)`;
+        });
+      }, 50);
+    }
+
+    function stopAnimation() {
+      clearInterval(animationInterval);
+    }
+
+    function resetAnimation() {
+      stopAnimation();
+      blocks.forEach((block) => {
+        block.style.transform = 'translateY(0)';
+      });
+    }
+
+    startButton.addEventListener('click', startAnimation);
+    stopButton.addEventListener('click', stopAnimation);
+    resetButton.addEventListener('click', resetAnimation);
+  </script>
+</body>
+</html>
